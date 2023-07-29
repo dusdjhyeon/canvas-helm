@@ -1,0 +1,52 @@
+# frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "terraform-canvas.fullname" . }}-front
+  labels:
+    app: {{ include "terraform-canvas.name" . }}-front
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "terraform-canvas.name" . }}-front
+  template:
+    metadata:
+      labels:
+        app: {{ include "terraform-canvas.name" . }}-front
+    spec:
+      serviceAccountName: {{ include "terraform-canvas.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}-front
+        image: dusdjhyeon/exfrontend:latest
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+
+---
+# backend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "terraform-canvas.fullname" . }}-back
+  labels:
+    app: {{ include "terraform-canvas.name" . }}-back
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "terraform-canvas.name" . }}-back
+  template:
+    metadata:
+      labels:
+        app: {{ include "terraform-canvas.name" . }}-back
+    spec:
+      serviceAccountName: {{ include "terraform-canvas.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}-back
+        image: dusdjhyeon/exbackend:latest
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
