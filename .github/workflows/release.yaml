@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: Configure Git 
         run: |
           git config user.name "dusdjhyeon"
           git config user.email "dusdj0813@gmail.com"
